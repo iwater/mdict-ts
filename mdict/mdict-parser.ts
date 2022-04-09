@@ -88,12 +88,14 @@ export class MDictParser {
     slicedKeyBlock;
 
     constructor(file: string) {
-        let pos = 0;
         this.file = file;
         this.ext = getExtension(file);
         this.read = readFile.bind(null, this.file);
+    }
 
-        this.read(0, 4).then(async (data: ArrayBuffer) => {
+    public async init() {
+        let pos = 0;
+        await this.read(0, 4).then(async (data: ArrayBuffer) => {
             const headerLength = new dataView(data).getUint32(0);
             const res = await this.read(4, headerLength + 48);
             const headerRemainLen = await this.read_header_sect(res, headerLength);

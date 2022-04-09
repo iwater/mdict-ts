@@ -12,6 +12,12 @@ export class Mdict extends MDictParser {
         super(file);
     }
 
+    public static async build(file: string): Promise<Mdict> {
+        const instance = new Mdict(file)
+        await instance.init();
+        return instance;
+    }
+
     /**
      * Reduce the key index array to an element which contains or is the nearest one matching a given phrase.
      */

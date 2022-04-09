@@ -4,9 +4,9 @@
     "outDir": "./dist/",
     "sourceMap": false,
     "noImplicitAny": false,
+    "removeComments": true,
     "module": "commonjs",
-    "target": "es2015",
-    "removeComments": true
+    "target": "es2020",
   },
   "include": [
     "lib/*",

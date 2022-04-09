@@ -15,7 +15,7 @@ Because of TextDecoder API , mdict-ts don't support IE and Edge , but you can us
 
 ```ts
     import {Mdict} from 'mdict-ts'
-    const mdict = new Mdict(file: File)
+    const mdict = await Mdict.build(file: File)
     
     mdict.getWordList(query, offset?): Promise<Array<{ word: string, offset: number }>>
     mdict.getDefinition(offset): Promise<string> 
