@@ -143,8 +143,8 @@ export class Scan {
         }
     }
 
-    // Read raw data as Uint8Array from current this.offset with specified length in bytes
-    readRaw(len) {
-        return [new Uint8Array(this.buf, this.offset, len), this.forward(len === undefined ? this.buf.length - this.offset : len)][0];
+    // Read raw data as Buffer from current this.offset with specified length in bytes
+    readRaw(len: number) {
+        return this.buf.slice(this.offset, this.offset + len);
     }
 }
