@@ -1,6 +1,6 @@
 {
   "name": "@iwater/mdict-ts",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "mdict (*.mdx, *.mdd) file reader",
   "main": "dist/mdict/mdict.js",
   "types": "dist/mdict/mdict.d.ts",

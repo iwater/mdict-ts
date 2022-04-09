@@ -253,9 +253,16 @@ export class Mdict extends MDictParser {
      * @return resolved actual definition
      */
     private async redirects(definition: string) {
-        return (definition.substring(0, 8) !== '@@@LINK=') ?
-            definition :
-            await this.mdx(definition.substring(8));
+        if ((definition.substring(0, 8) !== '@@@LINK=')) {
+            return definition;
+        }
+        const name = definition.substring(8);
+        let results = await this.mdx(name);
+        results = results.filter(({word}) => word === name);
+        if (results.length > 0) {
+            return await this.getDefinition(results[0].offset)
+        }
+        return '';
     }
 
     /**
@@ -329,7 +336,7 @@ export class Mdict extends MDictParser {
     public getDefinition(offset): Promise<string> {
         let block = this.RECORD_BLOCK_TABLE.find(offset);
         return this.read(block.comp_offset, block.comp_size).then((data: any) => {
-            return this.readDefinition(data, block, offset);
+            return this.readDefinition(data, block, offset).trim();
         }).then((definition: string) => {
             if (this.StyleSheet.length) definition = parseRes(definition, this.StyleSheet);
             return this.redirects(definition)
