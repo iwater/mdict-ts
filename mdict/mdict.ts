@@ -281,9 +281,9 @@ export class Mdict extends MDictParser {
      * @return a promise object which will resolve to an ArrayBuffer containing resource of image/audio/css/font etc.
      * TODO: Follow link, maybe it's too expensive and a rarely used feature?
      */
-    private async findResource(keyInfo) {
+    private findResource(keyInfo) {
         let block = this.RECORD_BLOCK_TABLE.find(keyInfo.offset);
-        return await this.read(block.comp_offset, block.comp_size).then(res => this.read_object(res, block, keyInfo))
+        return this.read(block.comp_offset, block.comp_size).then(res => this.read_object(res, block, keyInfo))
     }
 
     private mdx(query, offset?) {
@@ -306,8 +306,8 @@ export class Mdict extends MDictParser {
         let word = query.trim().toLowerCase();
         word = '\\' + word.replace(/(^[/\\])|([/]$)/, '');
         word = word.replace(/\//g, '\\');
-        return this.seekVanguard(word).then(([kdx, idx, list]) => {
-            return list.slice(idx).filter(e => e.toLowerCase() === word);
+        return this.seekVanguard(word).then(([, idx, list]) => {
+            return list.slice(idx).filter(e => e.word.toLowerCase() === word);
         }).then(candidates => {
             if (candidates.length === 0) {
                 throw '*RESOURCE NOT FOUND* ' + query;
