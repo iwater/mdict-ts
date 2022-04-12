@@ -313,8 +313,9 @@ export class Mdict extends MDictParser {
         let word = query.trim().toLowerCase();
         word = '\\' + word.replace(/(^[/\\])|([/]$)/, '');
         word = word.replace(/\//g, '\\');
-        return this.seekVanguard(word).then(([, idx, list]) => {
-            return list.slice(idx).filter(e => e.word.toLowerCase() === word);
+        return this.seekVanguard(word).then(([, , list]) => {
+            // TODO: check why seekVanguard return error value
+            return list.filter(e => e.word.toLowerCase() === word);
         }).then(candidates => {
             if (candidates.length === 0) {
                 throw '*RESOURCE NOT FOUND* ' + query;
